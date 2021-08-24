@@ -1,22 +1,12 @@
-import { createStore } from "redux";
-import { PICKLES, HOTDOG } from "./actions";
-
-interface actionShape {
-  type: string;
-  payload: string;
-}
-
-function courses(state = { payload: "Tomate" }, action: actionShape) {
+const reducer = (state = {}, action: any) => {
   switch (action.type) {
-    case PICKLES:
-      return { ...state, payload: action.payload };
-    case HOTDOG:
-      return { ...state, payload: action.payload };
+    case "GET_MEME":
+      return { ...state, loading: true };
+    case "MEME_RECEIVED":
+      return { ...state, meme: action.payload, loading: false };
     default:
       return state;
   }
-}
+};
 
-const store = createStore(courses);
-
-export default store;
+export default reducer;
