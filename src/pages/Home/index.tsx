@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setPickles, setHotDog } from "../../store/actions";
 
 import "./styles.css";
 
 export const Home = () => {
-  const [homeState, setHomeState] = useState("");
+  const appState = useSelector((state: any) => state);
+  const dispatch = useDispatch();
 
   function toPickle() {
-    setHomeState("Pickles");
+    dispatch(setPickles("Pickles"));
   }
 
   function toHotDog() {
-    setHomeState("Hot Dog");
+    dispatch(setHotDog("Hot Dog"));
   }
 
   return (
@@ -18,7 +21,7 @@ export const Home = () => {
       <div aria-label="card" className="card">
         <div className="card__content">
           <h1>Hello</h1>
-          <p>{homeState}</p>
+          <p>{appState.payload}</p>
           <button onClick={toPickle}>Pickle</button>
           <button onClick={toHotDog}>Hot dog</button>
         </div>
