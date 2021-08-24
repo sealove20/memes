@@ -1,30 +1,34 @@
-import React from "react";
+import React, { useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setPickles, setHotDog } from "../../store/actions";
+import { getMeme } from "../../store/actions";
 
 import "./styles.css";
 
 export const Home = () => {
-  const appState = useSelector((state: any) => state);
+  const { loading = "", meme = "" } = useSelector((state: any) => state);
   const dispatch = useDispatch();
 
-  function toPickle() {
-    dispatch(setPickles("Pickles"));
-  }
-
-  function toHotDog() {
-    dispatch(setHotDog("Hot Dog"));
-  }
+  useEffect(() => {
+    dispatch(getMeme());
+  }, [dispatch]);
 
   return (
     <div className="layout">
       <div aria-label="card" className="card">
-        <div className="card__content">
-          <h1>Hello</h1>
-          <p>{appState.payload}</p>
-          <button onClick={toPickle}>Pickle</button>
-          <button onClick={toHotDog}>Hot dog</button>
-        </div>
+        {loading ? (
+          <h1>LOADING</h1>
+        ) : (
+          <Fragment>
+            <h1 className="card__title">{meme.title}</h1>
+            <img className="card__image" src={meme.url} alt="a meme image" />
+            <button
+              className="card__button"
+              onClick={() => dispatch(getMeme())}
+            >
+              New Meme
+            </button>
+          </Fragment>
+        )}
       </div>
     </div>
   );
